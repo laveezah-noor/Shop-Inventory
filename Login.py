@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from Home import Home
 from Register import Register
+import json
 
 
 class Login(Frame):
@@ -22,10 +23,23 @@ class Login(Frame):
         Entry(self, textvariable=temp_password, show="*").grid(row=2, column=0)
 
         Button(self, text="Login", command=lambda: login(temp_email,temp_password)).grid(row=3, column=0)
+        notif = Label(self, font=('Calibri',12))
+        notif.grid(row=6,sticky=N,pady=10)
 
         def login(temp_email, temp_password):
             print(temp_email.get(), temp_password.get())
-            controller.show_frame(Home)
+            user_file = open('Users.json', 'r')
+            all_accounts = (json.load(user_file)["Users"])
+            print(all_accounts)
+            for user in all_accounts:
+                if temp_email.get() == user['email']:
+                    if temp_password.get() == user['password']:
+                        controller.show_frame(Home)
+                        break
+                    else:
+                        notif.config(fg="red", text="Incorrect Email or Password", font=('Ariel', 8))
+                else:
+                    notif.config(fg="red", text="No User", font=('Ariel', 8))
 
         def register():
             print('Hello')
