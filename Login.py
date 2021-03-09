@@ -3,6 +3,7 @@ from tkinter import ttk
 from Home import Home
 from Register import Register
 import json
+from openpyxl import load_workbook
 
 
 class Login(Frame):
@@ -28,13 +29,19 @@ class Login(Frame):
 
         def login(temp_email, temp_password):
             print(temp_email.get(), temp_password.get())
-            user_file = open('Users.json', 'r')
-            all_accounts = (json.load(user_file)["Users"])
-            print(all_accounts)
-            for user in all_accounts:
-                if temp_email.get() == user['email']:
-                    if temp_password.get() == user['password']:
+            workbook = load_workbook(filename="data.xlsx")
+            userSheet = workbook['Users']
+            row_max = userSheet.max_row 
+            for i in range(row_max):
+                email = userSheet.cell(row=(i+1), column=2).value
+                password = userSheet.cell(row=(i+1), column=3).value
+                name = userSheet.cell(row=(i+1), column=1).value
+                print("Login==> ", name, email, password)
+                if temp_email.get() == email:
+                    if temp_password.get() == password:
                         controller.show_frame(Home)
+                        workbook.active = workbook[name]
+                        print("Login==>",workbook.active)
                         break
                     else:
                         notif.config(fg="red", text="Incorrect Email or Password", font=('Ariel', 8))
@@ -42,7 +49,6 @@ class Login(Frame):
                     notif.config(fg="red", text="No User", font=('Ariel', 8))
 
         def register():
-            print('Hello')
             Register(self)
 
         Label(self, text="Not registered?", font=('Calibri', 8)).grid(row=4, column=0, sticky=(S, W), padx=0, pady=5)

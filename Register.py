@@ -2,6 +2,8 @@
 from tkinter import *
 import os
 import json
+from openpyxl import *
+
 
 class Register:
     def __init__(self, parent):
@@ -32,36 +34,45 @@ class Register:
         def finish_reg():
             name = temp_name.get()
             email = temp_email.get()
-            # gender = temp_gender.get()
             password = temp_password.get()
-            path = "Users.json"
-            all_accounts_file = open(path, 'r')
-            all_accounts = (json.load(all_accounts_file)["Users"])
-            print(all_accounts)
+            path = "data.xlsx"
+            workbook = load_workbook(filename=path)
+            userSheet = workbook['Users']
 
             if name == "" or email == "" or password == "":
                 notif.config(fg="red", text="All fields required * ", font=('Ariel', 8))
             else:
                 notif.config(text="", font=('Ariel', 8))
 
-            i = 0
-            while len(all_accounts) > i:
-                for user in all_accounts:
-                    print('User', user["name"])
-                    if name == user["name"]:
-                        notif.config(fg="red", font=('Calibri', 8), text="Account already exists")
-                        all_accounts_file.close()
-                        break
-                    else:
-                        i += 1
+            i = 1
+            col_max = userSheet.max_column
+            while col_max >= i:
+                userName = userSheet.cell(row=(i+1), column=1).value
+                userEmail = userSheet.cell(row=(i+1), column=2).value
+                print(userName, userEmail)
+                if name == userName or email == userEmail:
+                    notif.config(fg="red", font=('Calibri', 8), text="Account already exists")
+                    break
+                else:
+                    i += 1
             else:
-                user = {"name": name, "email": email, "password": password}
-                all_accounts.append(user)
-                all_accounts = json.dumps(all_accounts)
-                print(all_accounts)
-                user_file = open("Users.json", "w")
-                user_file.write('{"Users":'+str(all_accounts)+'}')
-                user_file.close()
+                data = [name, email, password]
+                userSheet.append(data)
+                workbook.create_sheet(name)
+                newSheet= workbook[name]
+                newFile = name + '.xlsx'
+                print(newFile)
+                newSheet['A1'] = name
+                newSheet['B1'] = newFile
+                workbook.save(filename="data.xlsx")
+                newWorkbook = Workbook()
+                newWs =  newWorkbook.active
+                newWs.title = "Profile"
+                newWs['A1'] = 'UserName'
+                newWs['B1'] = 'UserEmail'
+                newWs['C1'] = 'Password'
+                newWs.append(data)
+                workbook.save(filename=(newFile))
                 notif.config(fg='green', text="Account has been created")
                 register_screen.destroy()
 
