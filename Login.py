@@ -33,15 +33,21 @@ class Login(Frame):
             userSheet = workbook['Users']
             row_max = userSheet.max_row 
             for i in range(row_max):
+                name = userSheet.cell(row=(i+1), column=1).value
                 email = userSheet.cell(row=(i+1), column=2).value
                 password = userSheet.cell(row=(i+1), column=3).value
-                name = userSheet.cell(row=(i+1), column=1).value
-                print("Login==> ", name, email, password)
+                file = userSheet.cell(row=(i+1), column=4).value
+                status = userSheet.cell(row=(i+1), column=5).value
+                print("Login==> ", name, email, password, file, status)
                 if temp_email.get() == email:
                     if temp_password.get() == password:
+                        userSheet.cell(row=(i+1), column=5).value = TRUE
+                        print(userSheet.cell(row=(i+1), column=5).value)
+                        workbook.save(filename='data.xlsx')
+                        user = load_workbook(filename=file)
+                        print("Login==>",user.active, user.sheetnames)
+                        user.save(filename=file)
                         controller.show_frame(Home)
-                        workbook.active = workbook[name]
-                        print("Login==>",workbook.active)
                         break
                     else:
                         notif.config(fg="red", text="Incorrect Email or Password", font=('Ariel', 8))

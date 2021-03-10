@@ -1,7 +1,5 @@
 #imports
 from tkinter import *
-import os
-import json
 from openpyxl import *
 
 
@@ -56,23 +54,28 @@ class Register:
                 else:
                     i += 1
             else:
-                data = [name, email, password]
-                userSheet.append(data)
-                workbook.create_sheet(name)
-                newSheet= workbook[name]
                 newFile = name + '.xlsx'
+                newFile = newFile.replace(" ", "").lower()
                 print(newFile)
-                newSheet['A1'] = name
-                newSheet['B1'] = newFile
+                data = [name, email, password, newFile, FALSE]
+                row_max = userSheet.max_row
+                print(row_max)
+                for col_ind, title in enumerate(data, start=1):
+                    userSheet.cell(row=row_max+1, column=col_ind,value=title)
                 workbook.save(filename="data.xlsx")
                 newWorkbook = Workbook()
-                newWs =  newWorkbook.active
-                newWs.title = "Profile"
-                newWs['A1'] = 'UserName'
-                newWs['B1'] = 'UserEmail'
-                newWs['C1'] = 'Password'
-                newWs.append(data)
-                workbook.save(filename=(newFile))
+                newWs = newWorkbook.active
+                newWs.title = 'Profile'
+                newWs.append(['UserName', 'UserEmail', 'Password', 'File', 'Status'])
+                newWorkbook.create_sheet('Products')
+                newWorkbook.create_sheet('Customers')
+                newWorkbook.create_sheet('Orders')
+                print(data)
+                row_max = newWs.max_row
+                print(row_max)
+                for col_ind, title in enumerate(data, start=1):
+                    newWs.cell(row=row_max+1, column=col_ind,value=title)
+                newWorkbook.save(filename=(newFile))
                 notif.config(fg='green', text="Account has been created")
                 register_screen.destroy()
 

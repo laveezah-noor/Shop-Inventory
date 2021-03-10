@@ -12,15 +12,14 @@ class Home(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
-
         self.notebook = ttk.Notebook(self)
         self.add_tab()
         self.notebook.place(width=1300, height=700)
   
     def add_tab(self):
         tab1 = Products(self.notebook)
-        tab2 = Customers(self.notebook) 
-        tab3 = Orders(self.notebook) 
+        tab2 = Customers(self.notebook)
+        tab3 = Orders(self.notebook)
         self.notebook.add(tab1,text="Products")
         self.notebook.add(tab2,text="Customers")
         self.notebook.add(tab3,text="Orders")
