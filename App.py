@@ -1,8 +1,7 @@
 from tkinter import *
-from StartPage import StartPage
 from Home import Home
 from Login import Login
-
+from StartPage import StartPage
 
 class App(Tk):
     def __init__(self, *args, **kwargs):
@@ -18,6 +17,7 @@ class App(Tk):
         self.frames = {}
 
         for F in (StartPage, Login, Home):
+            print(F)
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -26,10 +26,11 @@ class App(Tk):
 
     def show_frame(self, context):
         frame = self.frames[context]
+        print(context)
         frame.tkraise()
 
 
 app = App()
 app.title("Shop Inventory")
-app.geometry('300x300')
+# app.geometry('300x300')
 app.mainloop()

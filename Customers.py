@@ -1,87 +1,88 @@
 from tkinter import *
 from tkinter import ttk
-from openpyxl import *
 from tkinter import messagebox
+from openpyxl import *
 
 
-
-class Products(Frame):
+class Customers(Frame):
     def __init__(self,*args,**kwargs):
         Frame.__init__(self,*args,**kwargs)
-        self.label = Label(self, text="Hi This is Tab1")
-        self.label.grid(row=1,column=0,padx=10,pady=10)
-
-        self.productprice = StringVar()
-        self.productname = StringVar()
-        self.productqty = StringVar()
+        self.label = Label(self, text="Hi This is Tab2")
+        self.label.grid(row=1,column=0,padx=10,pady=10)  
+        
+        self.contact_var = StringVar()
+        self.name_var = StringVar()
+        self.email_var = StringVar()
        
-        Manage_Frame = Frame(self, bd=4, relief=RIDGE, bg="crimson")
-        Manage_Frame.place(x=20, y=100, width=450, height=600)
+        Manage_Frame = Frame(self, bd=4, relief=RIDGE, bg="pink")
+        Manage_Frame.place(x=10, y=50, width=450, height=600)
 
-        m_title = Label(Manage_Frame, text="Manage Orders", bg="crimson", fg="white",
+        m_title = Label(Manage_Frame, text="Manage Customers", bg="pink", fg="white",
                         font=("times new roman", 20, "bold"))
-        m_title.grid(row=0, columnspan=2, pady=20)
+        m_title.grid(row=0, columnspan=2, pady=10)
 
-        lbl_productname= Label(Manage_Frame, text="Product Name", bg="crimson", fg="white", font=("times new roman", 18, "bold"))
-        lbl_productname.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        txt_productname= Entry(Manage_Frame, textvariable=self.productname, font=("times new roman", 18, "bold"), bd=5,
+        lbl_name = Label(Manage_Frame, text="Name", bg="crimson", fg="white", font=("times new roman", 18, "bold"))
+        lbl_name.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+        txt_name = Entry(Manage_Frame, textvariable=self.name_var, font=("times new roman", 18, "bold"), bd=5,
                          relief=GROOVE)
-        txt_productname.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+        txt_name.grid(row=1, column=1, padx=10, pady=5, sticky="w")
 
-        lbl_productprice= Label(Manage_Frame, text="Product Price", bg="crimson", fg="white", font=("times new roman", 18, "bold"))
-        lbl_productprice.grid(row=2, column=0, padx=10, pady=10, sticky="w")
-        txt_productprice= Entry(Manage_Frame, textvariable=self.productprice, font=("times new roman", 18, "bold"), bd=5,
+        lbl_email = Label(Manage_Frame, text="Email", bg="crimson", fg="white", font=("times new roman", 18, "bold"))
+        lbl_email.grid(row=2, column=0, padx=10, pady=5, sticky="w")
+        txt_email = Entry(Manage_Frame, textvariable=self.email_var, font=("times new roman", 18, "bold"), bd=5,
                          relief=GROOVE)
-        txt_productprice.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+        txt_email.grid(row=2, column=1, padx=10, pady=5, sticky="w")
 
-        lbl_productqty= Label(Manage_Frame, text="Quantity", bg="crimson", fg="white", font=("times new roman", 18, "bold"))
-        lbl_productqty.grid(row=3, column=0, padx=10, pady=10, sticky="w")
-        txt_productqty= Entry(Manage_Frame, textvariable=self.productqty, font=("times new roman", 18, "bold"), bd=5,
-                         relief=GROOVE)
-        txt_productqty.grid(row=3, column=1, padx=10, pady=10, sticky="w")
-        
-        lbl_add_button = Button(Manage_Frame, text="Add", bg="crimson", fg="white",
+        lbl_contact = Label(Manage_Frame, text="Contact", bg="crimson", fg="white", font=("times new roman", 18, "bold"))
+        lbl_contact.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+        txt_contact = Entry(Manage_Frame, textvariable=self.contact_var, font=("times new roman", 18, "bold"), bd=5,
+                          relief=GROOVE)
+        txt_contact.grid(row=3, column=1, padx=10, pady=5, sticky="w")
+
+        lbl_add_button = Button(Manage_Frame, text="Add", bg="pink", fg="white",
                             font=("times new roman", 18, "bold"), command=self.add_data)
-        lbl_add_button.grid(row=8, column=0, padx=10, pady=10, sticky="w")
+        lbl_add_button.grid(row=8, column=0, padx=10, pady=5, sticky="w")
         
-        lbl_clear_button = Button(Manage_Frame, text="Clear", bg="crimson", fg="white",
+        lbl_clear_button = Button(Manage_Frame, text="Clear", bg="pink", fg="white",
                             font=("times new roman", 18, "bold"), command=self.clear)
-        lbl_clear_button.grid(row=8, column=1, padx=10, pady=10, sticky="w")
+        lbl_clear_button.grid(row=8, column=1, padx=10, pady=5, sticky="w")
          
-        Detail_Frame = Frame(self, bd=4, relief=RIDGE, bg="crimson")
-        Detail_Frame.place(x=500, y=100, width=750, height=580)
+        Detail_Frame = Frame(self, bd=4, relief=RIDGE, bg="pink")
+        Detail_Frame.place(x=250, y=50, width=750, height=580)
  
         btn_show = Button(Detail_Frame, text="Show Data", font=("times new roman", 13), bd=5,
-                            relief=GROOVE, command=self.show_data, bg="crimson")
+                            relief=GROOVE, command=self.show_data, bg="pink")
         btn_show.grid(row=0, column=2, padx=5, pady=5, sticky="w")
         
         # Table Frame
-        Table_Frame = Frame(Detail_Frame, bd=4, relief=RIDGE, bg="crimson")
+        Table_Frame = Frame(Detail_Frame, bd=4, relief=RIDGE, bg="pink")
         Table_Frame.place(x=20, y=60)
  
         scroll_x = Scrollbar(Table_Frame, orient=HORIZONTAL)
         scroll_y = Scrollbar(Table_Frame, orient=VERTICAL)
  
-        self.Product_table = ttk.Treeview(Table_Frame,
-           columns=("productid", "productname", "productprice", "productqty"),
+        self.Customer_table = ttk.Treeview(Table_Frame,
+           columns=("no", "name", "email", "contact", "orders"),
            xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
         scroll_x.pack(side=BOTTOM, fill=X)
         scroll_y.pack(side=RIGHT, fill=Y)
-        scroll_x.config(command=self.Product_table.xview)
-        scroll_y.config(command=self.Product_table.yview)
-        self.Product_table.heading("productid", text="Product#")
-        self.Product_table.heading("productname", text="Name")
-        self.Product_table.heading("productprice", text="Price")
-        self.Product_table.heading("productqty", text="Quantity")
-        self.Product_table['show'] = 'headings'  # removing extra index col at begining
+        scroll_x.config(command=self.Customer_table.xview)
+        scroll_y.config(command=self.Customer_table.yview)
+        self.Customer_table.heading("no", text="ID#")
+        self.Customer_table.heading("name", text="Name")
+        self.Customer_table.heading("email", text="Email Address")
+        self.Customer_table.heading("contact", text="Contact")
+        self.Customer_table.heading("orders", text="Orders")
+        self.Customer_table['show'] = 'headings'  # removing extra index col at begining
  
         # setting up widths of cols
-        self.Product_table.column("productid", width=100)
-        self.Product_table.column("productname", width=100)
-        self.Product_table.column("productprice", width=100)
-        self.Product_table.column("productqty", width=100)
-        self.Product_table.pack(fill=BOTH, expand=1)  # fill both is used to fill cols around the frame
-        self.Product_table.bind("<ButtonRelease-1>", self.get_cursor)  # this is an event to select row
+        self.Customer_table.column("no", width=100)
+        self.Customer_table.column("name", width=100)
+        self.Customer_table.column("email", width=100)
+        self.Customer_table.column("contact", width=100)
+        self.Customer_table.column("orders", width=100)
+        self.Customer_table.pack(fill=BOTH, expand=1)  # fill both is used to fill cols around the frame
+        self.Customer_table.bind("<ButtonRelease-1>", self.get_cursor)  # this is an event to select row
  
     def clear(self):
         self.amount.set("")
@@ -159,17 +160,3 @@ class Products(Frame):
         data = [roll, name, email, gender, contact, dob]
         sheet.append(data)
         workbook.save(filename='data.xlsx')
-
-        
-
-
-        # self.productId = productId
-        # self.productPrice = productPrice
-        # self.productName = productName
-
-    # def addProduct(self, productId, productPrice, productName):
-    #     self.userSheet.append([productId, productPrice, productName])
-
-    # def showProducts(self):
-    #     row_max = self.userSheet.max_row
-    #     col_max = self.userSheet.max_column
