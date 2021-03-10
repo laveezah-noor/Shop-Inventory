@@ -8,9 +8,13 @@ from tkinter import messagebox
 class Products(Frame):
     def __init__(self,*args,**kwargs):
         Frame.__init__(self,*args,**kwargs)
-        self.label = Label(self, text="Hi This is Tab1")
-        self.label.grid(row=1,column=0,padx=10,pady=10)
-
+        self.label = Label(self, text="Products",
+                        font=("times new roman", 20, "bold"))
+        self.label.grid(row=0, column=1)
+        
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        
         self.productprice = StringVar()
         self.productname = StringVar()
         self.productqty = StringVar()
@@ -18,7 +22,7 @@ class Products(Frame):
         Manage_Frame = Frame(self, bd=4, relief=RIDGE, bg="crimson")
         Manage_Frame.place(x=20, y=100, width=450, height=600)
 
-        m_title = Label(Manage_Frame, text="Manage Orders", bg="crimson", fg="white",
+        m_title = Label(Manage_Frame, text="Manage Products", bg="crimson", fg="white",
                         font=("times new roman", 20, "bold"))
         m_title.grid(row=0, columnspan=2, pady=20)
 

@@ -32,5 +32,5 @@ class App(Tk):
 
 app = App()
 app.title("Shop Inventory")
-# app.geometry('300x300')
+app.geometry('1000x600+0+0')
 app.mainloop()
